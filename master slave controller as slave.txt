@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 master and slave concept in slave machine:
 1.install java version in slave machine which is same as on jenkins server
 2.install maven in slave machine which same home path of jenkins server
@@ -24,3 +25,31 @@ in command
 15.incase not matching go into the manage jenkins-configure system-jenkins URL
 copy the jenkins server public ip here then refresh the page
 16.Then copy the slave command into the slave machine.
+=======
+master and slave concept in slave machine:
+1.install java version in slave machine which is same as on jenkins server
+2.install maven in slave machine which same home path of jenkins server
+ex: /opt/maven
+ both machines master and slave should have same maven home path
+3. install git in slave machine
+4.Go into the jenkins server-manage jenkins-manage nodes-click on new node
+5.give name for new node-click on permanent agent-create
+6.enter the Remote root directory as path for the jobs(ex: /opt/build)
+7.enter the Labels -give some name which is identified(agent or slave )
+8.Launch method-
+  Launch agent by connecting it to the controller
+  Launch agent via execution of commands on the controller
+  Launch agent via ssh
+ select the 1st option "Launch agent by connecting it to the controller"
+9.check the Use WeSocket option
+10.then click on save
+11.click on that node()
+12.copy the command which is Run from agent command line
+13.then paste the command in the slave machine the enter "&" for running
+in backgroud
+14. must check the public ip of the jenkins server which is maching with
+in command
+15.incase not matching go into the manage jenkins-configure system-jenkins URL
+copy the jenkins server public ip here then refresh the page
+16.Then copy the slave command into the slave machine.
+>>>>>>> 3af1a2fa5c341e1acc3990e5275647466d38b268
