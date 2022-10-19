@@ -1,0 +1,35 @@
+declarative code for deployemtn war file into the tomcat server:
+pipeline{
+    agent any
+    stages{
+        stage("download")
+        {
+            steps{
+                git 'https://github.com/selenium-saikrishna/maven.git'
+            }
+        }
+        stage("build")
+        {
+            steps{
+                sh 'mvn package'
+            }
+
+        } 
+        stage("deployement")
+        {
+            steps{
+                sshagent(['bbda401a-2850-48c8-9892-6309280c5217']) {
+                sh 'scp -o StrictHostKeyChecking=no /home/ec2-user/var/lib/jenkins/workspace/pipeline_job/webapp/target/webapp.war ec2-user@172.31.3.27:/opt/apache-tomcat-9.0.68/webapps'
+            }
+            }
+        }  
+    }
+}
+
+1.after complettion of build now deploye the war file into the tomcat server
+2.install ssh agent plugin-magane jenkins-manage plugins-install ssh agent plugin
+3.Go into the pipeline job-configure-pipeline syntax-ssh agent-click on add-jenkins-select ssh username with private key-enter username-then paste the private-add
+4.add the user-genarate pipeline script-copy the content paste into the pipeline code deployement section
+5.add strict hostkey checking in no: -o StrictHostKeyChecking=no after the scp command inthe code section
+6.give the executable permissions to the ec2 user to access the /opt folder- in tomcat instances- chown -R ec2-user:ec2-user /opt  
+7.

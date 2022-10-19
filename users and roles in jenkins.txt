@@ -1,0 +1,18 @@
+Creating an adding users and roles in jenkins:
+1.Go into the Manage jenkins-in security section-Manage users-create user
+ add the credentials for new user like name,password and mail then click on create
+2.Go to manage jenkins-manage plugins-install role based authorized puligin
+3.Go to manage jenkins-configure Global security-in Authorization section 
+ click on Role-Based Strategy-click on save
+4.Go to the manage jenkins-Manage and Assign Roles-Manage Roles-in Global roles section-
+ Role to add enter "employee" click on add
+ add the permission what ever they want click check button.
+ (give job and view permissions)
+5.In Item role section-Role to add enter "Developer"
+   In pattern section enter "Dev"click on add.then enter "Tester" pattern "Test" click add
+  give all permissions to the developer and tester-applu-save
+6.In Manage and Assign Roles section-Assign Roles-Global roles section-user/group to add "name of the user"
+ click on add-check that user as employee
+7.In Item role secion-User/group to add-enter the "name of the user1"-click on add -check that user as Developer
+8.In Item role secion-User/group to add-enter the "name of the user2"-click on add -check that user as Tester-apply-save
+9.Logout the jenkins server-then login as new users then check the what ever the permission assinged to the new users
