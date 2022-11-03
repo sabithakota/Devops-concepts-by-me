@@ -1,0 +1,63 @@
+Manage data in Docker
+By default all files created inside a container are stored on a writable container layer. This means that:
+The data doesn’t persist when that container no longer exists, and it can be difficult to get the data out of the container if another process needs it.
+
+To list out existing volumes
+
+docker volume ls
+to create a container for stateless applications
+docker run -it --name vtuatjenkins01
+Docker has 3 options for containers to store files in the host machine, so that the files are persisted even after the container stops:
+
+docker volume types:
+anonymous volumes
+named voluems
+host volume or bind volumes
+Anonymous Volumes
+Create a container with an anonymous volume which is mounted as /data01 on container. in this case we mention container directory name. On host system it maps to a random-hash directory under /var/lib/docker directory.
+
+docker run -it --name vtwebuat01 -v /data01 nginx /bin/bash
+On Host to verify volume
+
+docker volume ls 
+docker inspect <volume_name>
+Named Volumes
+Create a container with a named volume name which is mounted as /data01 on container. You can see volume name as vtwebuat02_data01_val
+
+docker run -it --name vtwebuat02 -v vtwebuat02_data01_val:/data01 nginx /bin/bash
+Create a named volume then attach volume to a container
+
+docker volume create vtuatweb03_data01_vol
+docker run -it --name vtuatweb03 -v vtuatweb02_data01_vol:/data01 nginx /bin/bash
+Create a named volume with size
+
+docker volume create --opt o=size=100m --opt device=/data3 --opt type=btrfs vtuatdb02_data3 // to create volume with size 
+Host Volumes
+Create a host volume
+
+mkdir /opt/data02
+docker run -it --name vtwebuat03 -v /opt/data02:/data02 nginx /bin/bash
+
+
+persist application data using docker volumes
+Managing data is necessary for the stateful applications even though container deleted. In this demonstration we are going to see how can we achieve this.
+Using Named Volumes
+1.	Create a jenkins container
+docker run --name vtjenkinsprd01 -p 8080:8080 -p 50000:50000 -v vtjenkinsprd01_jenkins_home_vol:/var/jenkins_home jenkins
+2.	Create a test job on jenkins console
+3.	check for the job info on the container
+4.	docker volume ls
+docker inspect <volume_name>
+5.	Delete jenkins container
+6.	docker stop vtjenkinstest01
+docker rm vtjenkinstest01
+7.	Create a new container with existing volume.
+docker run -d --name vtjenkinsprd02 -p 8090:8080 -p 55000:50000 -v vtjenkinsprd01_jenkins_home_vol:/var/jenkins_home jenkins
+Using host volumes
+1.	Create a directory or filesystem and change permssions to 777
+2.	mkdir /opt/jenkins
+chmod 777 /opt/jenkins
+3.	Create jenkins server using above directory
+docker run --name vtjenkinsprd01 -p 9000:8080 -p 60000:50000 -v /opt/jenkins:/var/jenkins_home jenkins
+4.	Check for the jenkins data under /opt/jenkins
+

@@ -1,0 +1,42 @@
+jenkins ci-cd, deployement through ansible:
+1.launch instances named as jenkins
+2.launch 2 instances named 1 as ansible other as managed node (tomcat)
+3.in ansible server write a playbook for copy the war file into the tomat server
+4.make sure that jenkins setup is ready upto build the job
+5.install the publish over ssh plugin
+6.in configure system configure ansible server with username and password
+7.make sure that the connecion btw ansible and managed node as (tomcat) 
+and tomcat should running and give the permission to the tomcat folder
+ chmod -R 777 /tomat9
+8.playbook for copy the artifact from ansible to tomcat server
+---
+- name: copy file
+  hosts: all
+  become: true
+  tasks:
+  - name: copy artifact
+    copy:
+     src: /home/ansadmin/webapp.war
+     dest: /opt/tomcat9/webapps
+...
+9.In jenkins server go into the job-configure-
+git:
+https://github.com/selenium-saikrishna/maven.git
+build steps:
+invoke top level mavane targets:
+maven goals: package
+
+send files or execute commands over SSH:
+ssh publishers:
+ssh server name:
+select ansible-server name
+Transfer set Source files:  webapp/target/*.war #source file path
+Remove prefix: webapp/target
+Remote directory: //home//ansadmin # source file path whatever given in playbook that is remote directory of war file
+Exec command: ansible-playbook /home/ansadmin/playbooks/copyfile.yml
+10.executet the jekins job
+11.after success the job check webapp.war file should present in ansible
+ server after that check into the tomcat webapps folder then check it is a
+accessing or not thorught public ip of tomcat:port/webapp
+
+
